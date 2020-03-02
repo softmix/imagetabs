@@ -1,5 +1,5 @@
 var imagesregex = new RegExp(
-  "://[^/]*.?((whatisnsfw|slutcapades|imagebam|babenudity|imagefap|motherless|nsfwpost|ultbabes|thiswebsiterules|phapz|phapit|flickr|imgur|drunkenstepfather|twimg|cdninstagram).com|(juvo).se/(w{4})|(pomf).is|(1339).cf|(maxfile).ro|(subimg).net|(neud).org|(assvsart).info)|(steamy).moe|.(jpg|jpeg|gif|png|bmp|webm|mp4)$",
+  "://[^/]*.?((imgur|twimg|cdninstagram).com)|.(jpg|jpeg|gif|png|bmp|webm|mp4)$",
   "i"
 );
 var images_to_check = new Array();
