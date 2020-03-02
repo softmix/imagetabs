@@ -2,7 +2,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.tabs.executeScript({ file: "imagetabs.js" });
 });
 
-chrome.extension.onMessage.addListener(function(images_to_check, sender) {
+browser.runtime.onMessage.addListener(function(images_to_check, sender) {
   var images_to_open = new Array();
   var checked_images = 0;
 
@@ -24,7 +24,7 @@ chrome.extension.onMessage.addListener(function(images_to_check, sender) {
 var openImages = function(images_to_open) {
   //console.dir(images_to_open);
   images_to_open.forEach(function(url) {
-    chrome.tabs.create({ url: url, selected: false }, function(tab) {
+    chrome.tabs.create({ url: url, active: false }, function(tab) {
       // Tab opened.
     });
   });

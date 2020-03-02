@@ -19,7 +19,7 @@ if (links && links.length) {
       images_to_check.push(u);
     }
   }
-  chrome.extension.sendMessage(images_to_check);
+  browser.runtime.sendMessage(images_to_check);
 } else {
   alert("Cant access links in document!", 1);
 }
