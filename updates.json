@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "imagetabs@example.com": {
+      "updates": [
+        {
+          "version": "0.0.1",
+          "update_link": "https://github.com/softmix/imagetabs/releases/download/0.0.1/imagetabs.xpi"
+        }
+      ]
+    }
+  }
+}
