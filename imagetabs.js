@@ -1,5 +1,5 @@
 var imagesregex = new RegExp(
-  "://[^/]*.?((imgur|twimg|cdninstagram).com)|.(jpg|jpeg|gif|png|bmp|webm|mp4)$",
+  "://[^/]*.?((imgur|twimg|cdninstagram|gfycat).com)|.(jpg|jpeg|gif|png|bmp|webm|mp4)$",
   "i"
 );
 var images_to_check = new Array();
