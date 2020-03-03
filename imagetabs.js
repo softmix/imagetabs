@@ -14,7 +14,7 @@ if (links && links.length) {
       u.slice(-3) != "xpi" &&
       u.slice(-4) != "m3u8" &&
       imagesregex.test(u) &&
-      !inArray(u, images_to_check)
+      !images_to_check.includes(u)
     ) {
       images_to_check.push(u);
     }
@@ -22,12 +22,4 @@ if (links && links.length) {
   browser.runtime.sendMessage(images_to_check);
 } else {
   alert("Cant access links in document!", 1);
-}
-
-function inArray(needle, haystack) {
-  var length = haystack.length;
-  for (var i = 0; i < length; i++) {
-    if (haystack[i] == needle) return true;
-  }
-  return false;
 }
