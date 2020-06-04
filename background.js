@@ -15,7 +15,7 @@ browser.runtime.onMessage.addListener((images_to_check, _sender) => {
       checked_images++;
 
       if (checked_images == images_to_check.length) {
-        images_to_open.slice(0, 5).forEach((url) => {
+        images_to_open.slice(0, 50).forEach((url) => {
           browser.tabs.create({ url: url, active: false });
         });
       }
