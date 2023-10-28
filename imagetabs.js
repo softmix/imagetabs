@@ -1,22 +1,56 @@
-var imagesregex = new RegExp(
-  "://[^/]*.?((imgur|twimg|cdninstagram|gfycat|redgifs).com)|.(jpg|jpeg|gif|png|bmp|webm|mp4)$",
-  "i"
-);
+const domains = [
+  "imgur.com",
+  "i.imgur.com",
+  "twimg.com",
+  "cdninstagram.com",
+  "gfycat.com",
+  "redgifs.com",
+  "jiggie.fun",
+];
+
+const fileExtensions = [
+  "jpg",
+  "jpeg",
+  "gif",
+  "png",
+  "bmp",
+  "webm",
+  "mp4",
+];
+
+const exclusions = [
+  "xpi",
+  "m3u8",
+]
+
+function startsWithHttp(url) {
+  return url.startsWith("http");
+}
+
+function isExcluded(url) {
+  return exclusions.some((exclusion) => url.endsWith(exclusion));
+}
+
+function hasMatchingDomain(url) {
+  return domains.some((domain) => url.includes(domain));
+}
+
+function hasMatchingExtension(url) {
+  return fileExtensions.some((extension) => url.endsWith(extension));
+}
+
 var images_to_check = new Array();
 var links = document.getElementsByTagNameNS("*", "a");
 
 if (links && links.length) {
-  var len = links.length;
-  for (var i = 0; i < len; ++i) {
-    var u = links[i].href;
-    if (
-      u.substr(0, 4) == "http" &&
-      u.slice(-3) != "xpi" &&
-      u.slice(-4) != "m3u8" &&
-      imagesregex.test(u) &&
-      !images_to_check.includes(u)
-    ) {
-      images_to_check.push(u);
+  for (let link of links) {
+    const url = link.href;
+    if (startsWithHttp(url) && !isExcluded(url)) {
+      if (hasMatchingDomain(url) || hasMatchingExtension(url)) {
+        if (!images_to_check.includes(url)) {
+          images_to_check.push(url);
+        }
+      }
     }
   }
   browser.runtime.sendMessage(images_to_check);
