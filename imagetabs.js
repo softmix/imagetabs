@@ -7,6 +7,7 @@
     "gfycat.com",
     "redgifs.com",
     "jiggie.fun",
+    "catbox.moe",
   ];
 
   const fileExtensions = [

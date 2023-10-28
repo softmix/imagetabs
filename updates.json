@@ -3,7 +3,7 @@
     "imagetabs@example.com": {
       "updates": [
         {
-          "version": "0.1.6",
+          "version": "0.1.7",
           "update_link": "https://github.com/softmix/imagetabs/releases/download/0.1.6/imagetabs.xpi"
         }
       ]
