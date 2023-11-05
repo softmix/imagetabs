@@ -1,62 +1,60 @@
-(function () {
-  const domains = [
-    "imgur.com",
-    "i.imgur.com",
-    "twimg.com",
-    "cdninstagram.com",
-    "gfycat.com",
-    "redgifs.com",
-    "jiggie.fun",
-    "catbox.moe",
-  ];
+(async function () {
+  async function getPreferences() {
+    const preferences = await browser.storage.sync.get([
+      "includedProtocols",
+      "includedDomains",
+      "includedExtensions",
+      "excludedDomains",
+      "excludedExtensions"
+    ]);
 
-  const fileExtensions = [
-    "jpg",
-    "jpeg",
-    "gif",
-    "png",
-    "bmp",
-    "webm",
-    "mp4",
-  ];
-
-  const exclusions = [
-    "xpi",
-    "m3u8",
-  ]
-
-  function startsWithHttp(url) {
-    return url.startsWith("http");
+    return {
+      includedProtocols: new Set(preferences.includedProtocols || ["http:", "https:"]),
+      includedDomains: new Set(preferences.includedDomains),
+      includedExtensions: new Set(preferences.includedExtensions),
+      excludedDomains: new Set(preferences.excludedDomains),
+      excludedExtensions: new Set(preferences.excludedExtensions),
+    };
   }
 
-  function isExcluded(url) {
-    return exclusions.some((exclusion) => url.endsWith(exclusion));
+  const prefs = await getPreferences();
+
+  function isIncluded(urlObj) {
+    const protocol = urlObj.protocol;
+    const hostname = urlObj.hostname;
+    const extension = urlObj.pathname.split('.').pop().toLowerCase();
+
+    return prefs.includedProtocols.has(protocol) &&
+      (prefs.includedDomains.has(hostname) ||
+        prefs.includedExtensions.has(extension));
   }
 
-  function hasMatchingDomain(url) {
-    return domains.some((domain) => url.includes(domain));
+  function isExcluded(urlObj) {
+    const hostname = urlObj.hostname;
+    const extension = urlObj.pathname.split('.').pop().toLowerCase();
+
+    return prefs.excludedDomains.has(hostname) || prefs.excludedExtensions.has(extension);
   }
 
-  function hasMatchingExtension(url) {
-    return fileExtensions.some((extension) => url.endsWith(extension));
-  }
+  const images_to_check = new Set();
 
-  const images_to_check = [];
-  const links = document.getElementsByTagNameNS("*", "a");
+  const links = document.querySelectorAll("a[href]");
 
-  if (links && links.length) {
-    for (let link of links) {
-      const url = link.href;
-      if (startsWithHttp(url) && !isExcluded(url)) {
-        if (hasMatchingDomain(url) || hasMatchingExtension(url)) {
-          if (!images_to_check.includes(url)) {
-            images_to_check.push(url);
-          }
-        }
+  for (let link of links) {
+    try {
+      const urlObj = new URL(link.href);
+
+      if (isIncluded(urlObj) && !isExcluded(urlObj)) {
+        images_to_check.add(urlObj.href);
       }
+    } catch (error) {
+      console.error("Error processing URL:", link.href, error);
     }
-    browser.runtime.sendMessage(images_to_check);
+  }
+
+  if (images_to_check.size > 0) {
+    browser.runtime.sendMessage([...images_to_check]);
   } else {
-    alert("Cant access links in document!", 1);
+    alert("No new images found to open.");
   }
 })();
