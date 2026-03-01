@@ -24,8 +24,12 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "imagetabs@example.com",
-      "strict_min_version": "57.0",
-      "update_url": "https://raw.githubusercontent.com/softmix/imagetabs/master/updates.json"
+      "strict_min_version": "142.0",
+      "update_url": "https://raw.githubusercontent.com/softmix/imagetabs/master/updates.json",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": []
+      }
     }
   }
 }
