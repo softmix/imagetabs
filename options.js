@@ -33,5 +33,10 @@ function restoreOptions() {
     getting.then(setCurrentChoice, onError);
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
+document.addEventListener("DOMContentLoaded", () => {
+    restoreOptions();
+    browser.storage.local.get("totalOpened").then(({ totalOpened = 0 }) => {
+        document.querySelector("#totalOpened").textContent = totalOpened;
+    });
+});
 document.querySelector("form").addEventListener("submit", saveOptions);
