@@ -20,7 +20,7 @@ clean:
 	rm -rf web-ext-artifacts
 
 build: clean tag
-	web-ext sign --channel="unlisted" --id="$(ID)"
+	web-ext sign --channel="unlisted" --id="$(ID)" --ignore-files Makefile .env updates.json package.json package-lock.json
 
 release: tag
 	cp web-ext-artifacts/*.xpi $(EXTENSION).xpi
