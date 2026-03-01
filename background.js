@@ -24,9 +24,13 @@ browser.runtime.onMessage.addListener(async (images_to_check, _sender) => {
 
   await openTabs(images_to_open);
 
-  const count = Math.min(images_to_open.length, 50);
+  const total = images_to_open.length;
+  const count = Math.min(total, 50);
   browser.browserAction.setBadgeText({ text: count > 0 ? String(count) : "" });
-  browser.browserAction.setBadgeBackgroundColor({ color: "#666" });
+  browser.browserAction.setBadgeBackgroundColor({ color: total > 50 ? "#c44" : "#666" });
+  if (total > 50) {
+    console.warn(`imagetabs: opened 50 of ${total} images (limit reached)`);
+  }
 
   if (count > 0) {
     const { totalOpened = 0 } = await browser.storage.local.get("totalOpened");
