@@ -5,6 +5,10 @@ function saveOptions(e) {
         excludedDomains: document.querySelector("#excludedDomains").value.split('\n').filter(Boolean),
         includedExtensions: document.querySelector("#includedExtensions").value.split('\n').filter(Boolean),
         excludedExtensions: document.querySelector("#excludedExtensions").value.split('\n').filter(Boolean),
+    }).then(() => {
+        const btn = document.querySelector("button[type='submit']");
+        btn.textContent = "Saved!";
+        setTimeout(() => { btn.textContent = "Save Preferences"; }, 1500);
     });
 }
 
