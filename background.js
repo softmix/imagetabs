@@ -1,9 +1,5 @@
-async function getVisitHistory(url) {
-  return new Promise((resolve, reject) => {
-    browser.history.getVisits({ url: url }, (visits) => {
-      resolve(visits);
-    });
-  });
+function getVisitHistory(url) {
+  return browser.history.getVisits({ url });
 }
 
 async function openTabs(urls) {
