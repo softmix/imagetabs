@@ -24,4 +24,4 @@ build: clean tag
 
 release: tag
 	cp web-ext-artifacts/*.xpi $(EXTENSION).xpi
-	hub release create -a $(EXTENSION).xpi $(VERSION) -m "$(VERSION)"
+	gh release create $(VERSION) $(EXTENSION).xpi --title "$(VERSION)"
